@@ -205,3 +205,13 @@ def playlist_detail(request, id):
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+
+#####
+
+from django.http import HttpResponse
+from django.core.management import call_command
+
+def run_migrations(request):
+    call_command('migrate')
+    return HttpResponse("Migrations done")
