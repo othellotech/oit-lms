@@ -13,3 +13,4 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('run-migrations/', views.run_migrations),
 ]
+
