@@ -1,0 +1,46 @@
+{% extends 'portal/base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<div class="login-page">
+
+    <!-- dark overlay -->
+    <div class="overlay"></div>
+
+    <!-- login card -->
+    <div class="login-box">
+
+        <div class="login-brand">
+            <img src="{% static 'portal/images/logo.jpeg' %}" class="login-logo">
+            <div>
+                <h2>Othello Institute of Technology</h2>
+                <p>Student Portal Login</p>
+            </div>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <input type="text" name="email" placeholder="Email">
+            <input type="password" name="password" placeholder="Password">
+
+            <button>Login</button>
+            <div style="margin-top:10px; text-align:center;">
+    <a href="{% url 'password_reset' %}" style="font-size:14px; color:#555;">
+        Forgot Password?
+    </a>
+</div>
+        </form>
+
+        <p class="bottom-text">
+            No account? <a href="/register/">Register</a>
+        </p>
+
+    </div>
+
+</div>
+
+
+{% endblock %}

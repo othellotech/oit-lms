@@ -1,0 +1,79 @@
+{% extends 'portal/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- TOP NAVBAR -->
+<div class="dashboard-navbar">
+
+    <div class="nav-left">
+        <img src="{% static 'portal/images/logo.jpeg' %}" class="nav-logo">
+
+        <div class="nav-text">
+            <h3>Othello Institute of Technology</h3>
+            <p>Student Dashboard</p>
+        </div>
+    </div>
+
+    <a href="{% url 'logout' %}">
+    <button class="logout-btn">Logout</button>
+</a>
+
+</div>
+
+
+<!-- MAIN CONTENT -->
+<div class="container">
+
+    <!-- WELCOME SECTION -->
+    <div class="welcome-box">
+        <h2>Welcome, {{ user.first_name }}</h2>
+        <p> <b>{{ user.profile.course.title|default:"No Course" }} Track </b></p>
+        <p>Continue your learning journey</p>
+    </div>
+
+
+    <!-- PROGRESS SECTION -->
+    <div class="progress-box">
+
+        <div class="progress-header">
+            <h3>Course Overview</h3>
+            <span>{{ progress }}% Completed</span>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: {{ progress }}%;"></div>
+        </div>
+
+    </div>
+    
+
+
+    <!-- PLAYLIST SECTION -->
+    <h3 class="section-title">Your Learning Tracks</h3>
+
+    <div class="playlist-row">
+
+        {% for playlist in playlists %}
+            <div class="playlist-card">
+
+                <div class="playlist-icon">📁</div>
+
+                <h3>{{ playlist.title }}</h3>
+
+                {% if playlist.is_locked %}
+                    <button class="locked-btn">🔒 Locked</button>
+                {% else %}
+                    <a href="{% url 'playlist_detail' playlist.id %}">
+                        <button class="open-btn">Open</button>
+                    </a>
+                {% endif %}
+
+            </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'portal/base.html' %}
+
+{% block content %}
+
+<div class="top-bar">
+    <a href="{% url 'playlist_detail' lesson.playlist.id %}" class="back-btn">← Back to Playlist</a>
+</div>
+
+<div class="lesson-layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h3>{{ lesson.playlist.title }}</h3>
+
+        {% for l in lessons %}
+            <a href="{% url 'lesson_detail' l.id %}"
+               class="lesson-link {% if l.id == lesson.id %}active{% endif %}">
+
+                {{ l.title }}
+
+                {% if l.completed %}
+                    ✔
+                {% endif %}
+
+            </a>
+        {% endfor %}
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="lesson-content">
+
+        <h2>{{ lesson.title }}</h2>
+
+        <div class="video-box">
+            <iframe width="100%" height="400"
+                src="{{ lesson.video_url }}"
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <div class="note-box">
+            {% if lesson.note %}
+                <p>{{ lesson.note }}</p>
+            {% else %}
+                <p class="no-note">No notes for this lesson.</p>
+            {% endif %}
+        </div>
+
+        <!-- CONTROLS -->
+        <div class="lesson-controls">
+
+            {% if prev_lesson %}
+                <a href="{% url 'lesson_detail' prev_lesson.id %}" class="btn prev-btn">Prev</a>
+            {% endif %}
+
+            <form method="POST" action="{% url 'mark_complete' lesson.id %}" class="complete-form">
+                {% csrf_token %}
+
+                {% if completed %}
+                    <button class="btn completed">Undo</button>
+                {% else %}
+                    <button class="btn complete-btn">Mark Completed</button>
+                {% endif %}
+            </form>
+
+            {% if next_lesson %}
+                <a href="{% url 'lesson_detail' next_lesson.id %}" class="btn next-btn">Next</a>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

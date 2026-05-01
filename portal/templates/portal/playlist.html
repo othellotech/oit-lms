@@ -1,0 +1,42 @@
+{% extends 'portal/base.html' %}
+
+{% block content %}
+
+<div class="top-bar">
+    <a href="{% url 'dashboard' %}" class="back-btn">← Dashboard</a>
+</div>
+
+<div class="container">
+
+    <h2>{{ playlist.title }}</h2>
+
+    <!-- LESSONS -->
+    <div class="playlist-lessons">
+
+        {% for lesson in lessons %}
+            <div class="lesson-card">
+
+                <h3>{{ lesson.title }}</h3>
+
+                {% if lesson.tool %}
+                    <p class="lesson-tool">{{ lesson.tool }}</p>
+                {% endif %}
+
+                {% if lesson.completed %}
+                    <a href="{% url 'lesson_detail' lesson.id %}">
+                        <button class="completed">✔ Completed (Review)</button>
+                    </a>
+                {% else %}
+                    <a href="{% url 'lesson_detail' lesson.id %}">
+                        <button>Start Lesson</button>
+                    </a>
+                {% endif %}
+
+            </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

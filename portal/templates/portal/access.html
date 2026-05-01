@@ -1,0 +1,29 @@
+{% extends 'portal/base.html' %}
+
+{% block content %}
+
+<div class="top-bar">
+    <a href="{% url 'dashboard' %}" class="back-btn">← Back to Dashboard</a>
+</div>
+
+<div class="container">
+
+    <h2>🔒 Access Required</h2>
+
+    <p>You need a code to open this playlist:</p>
+
+    <h3>{{ playlist.title }}</h3>
+
+    {% if error %}
+        <p style="color:red;">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="access_code" placeholder="Enter Access Code">
+        <button type="submit">Unlock Playlist</button>
+    </form>
+
+</div>
+
+{% endblock %}

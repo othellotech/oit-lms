@@ -1,0 +1,49 @@
+{% extends 'portal/base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<div class="split">
+
+    <!-- LEFT SIDE IMAGE -->
+    <div class="left">
+        <img src="{% static 'portal/images/student.jpeg' %}">
+    </div>
+
+    <!-- RIGHT SIDE FORM -->
+    <div class="right">
+        <div class="form-box">
+
+            <div class="brand">
+                <img src="{% static 'portal/images/logo.jpeg' %}" class="brand-logo">
+
+                    <div class="brand-text">
+                         <h1>Othello Institute of Technology</h1>
+                         <p>Student Registration Portal</p>
+                    </div>
+            </div>
+
+            
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <input type="text" name="first_name" placeholder="First Name">
+                <input type="text" name="last_name" placeholder="Last Name">
+                <input type="email" name="email" placeholder="Email">
+                <input type="password" name="password" placeholder="Password">
+                <input type="password" name="confirm_password" placeholder="Confirm Password">
+                <input type="text" name="access_code" placeholder="Access Code">
+
+                <button>Register</button>
+            </form>
+
+            <p>Already have account? <a href="/">Login</a></p>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
