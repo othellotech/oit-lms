@@ -23,18 +23,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-uro+htf7fa=mq=t&p5&56$q@&)q6kst2x!81xuqq#o#la7&zz7'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ['*']
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
-    'localhost'
+    'localhost',
+    '.onrender.com'
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.onrender.com"
+]
 
 # Application definition
 
@@ -50,6 +54,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -82,8 +87,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.parse(
-        'postgresql://oit_lms_db_user:X3Aba83a5ckgnrYXo8B0R5Gx7m91daQr@dpg-d7qgc1m7r5hc73e5vu0g-a.ohio-postgres.render.com/oit_lms_db',
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL'),
         conn_max_age=600,
         ssl_require=True
     )
@@ -129,7 +134,7 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-DEBUG = False
-ALLOWED_HOSTS = ['your-render-url.onrender.com']
+DEBUG = os.getenv("DEBUG", "False") == "True"
